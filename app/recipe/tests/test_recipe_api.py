@@ -124,9 +124,9 @@ class PrivateRecipeApiTests(TestCase):
         """Test partial update of a recipe."""
         original_link = 'https://example.com/recipe.pdf'
         recipe = create_recipe(
-            user = self.user,
-            title = 'Sample recipe',
-            link =original_link,
+            user=self.user,
+            title='Sample recipe',
+            link=original_link,
         )
 
         payload = {'title': 'New recipe title'}
@@ -173,6 +173,7 @@ class PrivateRecipeApiTests(TestCase):
         url = detail_url(recipe.id)
         res = self.client.patch(url, payload)
 
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
         recipe.refresh_from_db()
         self.assertEqual(recipe.user, self.user)
 
@@ -202,7 +203,7 @@ class PrivateRecipeApiTests(TestCase):
         payload = {
             'title': 'Thai Prawn Curry',
             'time_minutes': 30,
-            'price':Decimal('2.50'),
+            'price': Decimal('2.50'),
             'tags': [{'name': 'Thai'}, {'name': 'Dinner'}],
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
